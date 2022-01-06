@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 06-01-2022 03:21:39
+# Last Modified: 06-01-2022 03:26:25
 # Modified By: Clay Risser
 # -----
 # BitSpur Inc (c) Copyright 2021 - 2022
@@ -25,7 +25,7 @@
 EXAMPLE_ENV ?= $(PROJECT_ROOT)/example.env
 DOTENV ?= $(PROJECT_ROOT)/.env
 
-$(MKPM_TMP)/env: .env
+$(MKPM_TMP)/env: $(DOTENV)
 	@$(MKDIR) -p $(@D)
 	@$(CAT) $< | $(SED) 's|^#.*||g' | $(SED) '/^$$/d' | $(SED) 's|^|export |' > $@
 $(DOTENV): $(EXAMPLE_ENV)
