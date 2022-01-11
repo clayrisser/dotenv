@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 06-01-2022 03:26:25
+# Last Modified: 11-01-2022 03:31:24
 # Modified By: Clay Risser
 # -----
 # BitSpur Inc (c) Copyright 2021 - 2022
@@ -22,11 +22,16 @@
 
 -include $(MKPM_TMP)/env
 
-EXAMPLE_ENV ?= $(PROJECT_ROOT)/example.env
+DEFAULT_ENV ?= $(PROJECT_ROOT)/default.env
 DOTENV ?= $(PROJECT_ROOT)/.env
 
 $(MKPM_TMP)/env: $(DOTENV)
 	@$(MKDIR) -p $(@D)
 	@$(CAT) $< | $(SED) 's|^#.*||g' | $(SED) '/^$$/d' | $(SED) 's|^|export |' > $@
-$(DOTENV): $(EXAMPLE_ENV)
+ifneq (,$(wildcard $(DEFAULT_ENV)))
+$(DOTENV): $(DEFAULT_ENV)
 	@$(CP) $< $@
+else
+$(DOTENV):
+	@$(TOUCH) -m $@
+endif

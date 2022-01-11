@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 06-01-2022 03:21:45
+# Last Modified: 11-01-2022 03:32:03
 # Modified By: Clay Risser
 # -----
 # BitSpur Inc (c) Copyright 2021 - 2022
@@ -21,10 +21,9 @@
 # limitations under the License.
 
 include mkpm.mk
--include $(MKPM)/gnu
 ifneq (,$(MKPM_READY))
-
--include main.mk
+include $(MKPM)/gnu
+include main.mk
 
 PACK_DIR := $(MKPM_TMP)/pack
 
