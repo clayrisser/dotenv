@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 11-01-2022 03:31:24
+# Last Modified: 11-01-2022 03:38:38
 # Modified By: Clay Risser
 # -----
 # BitSpur Inc (c) Copyright 2021 - 2022
@@ -22,8 +22,8 @@
 
 -include $(MKPM_TMP)/env
 
-DEFAULT_ENV ?= $(PROJECT_ROOT)/default.env
-DOTENV ?= $(PROJECT_ROOT)/.env
+DOTENV ?= $(CURDIR)/.env
+DEFAULT_ENV ?= $(subst /.env,,$(DOTENV))/default.env
 
 $(MKPM_TMP)/env: $(DOTENV)
 	@$(MKDIR) -p $(@D)

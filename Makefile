@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 11-01-2022 03:32:03
+# Last Modified: 11-01-2022 03:39:07
 # Modified By: Clay Risser
 # -----
 # BitSpur Inc (c) Copyright 2021 - 2022
@@ -26,6 +26,11 @@ include $(MKPM)/gnu
 include main.mk
 
 PACK_DIR := $(MKPM_TMP)/pack
+
+.PHONY: info
+info:
+	@$(ECHO) DOTENV: $(DOTENV)
+	@$(ECHO) DEFAULT_ENV: $(DEFAULT_ENV)
 
 .PHONY: pack
 pack:
