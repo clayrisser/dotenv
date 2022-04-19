@@ -30,7 +30,7 @@ $(MKPM_TMP)/env: $(DOTENV)
 	@$(CAT) $< | \
 		$(SED) 's|^#.*||g' | \
 		$(SED) '/^$$/d' | \
-		$(SED) 's|^|export |' \
+		$(SED) 's|^|export |' | \
 		$(SED) 's|\=| \?= |' > $@
 ifneq (,$(wildcard $(DEFAULT_ENV)))
 $(DOTENV): $(DEFAULT_ENV)

@@ -22,7 +22,7 @@
 
 MKPM_PKG_NAME := dotenv
 
-MKPM_PKG_VERSION := 0.0.5
+MKPM_PKG_VERSION := 0.0.6
 
 MKPM_PKG_DESCRIPTION := "dotenv support for makefiles"
 
