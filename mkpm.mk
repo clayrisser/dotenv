@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 19-04-2022 02:51:29
+# Last Modified: 19-04-2022 04:06:14
 # Modified By: Clay Risser
 # -----
 # BitSpur Inc (c) Copyright 2021 - 2022
@@ -22,7 +22,7 @@
 
 MKPM_PKG_NAME := dotenv
 
-MKPM_PKG_VERSION := 0.0.6
+MKPM_PKG_VERSION := 0.0.7
 
 MKPM_PKG_DESCRIPTION := "dotenv support for makefiles"
 

@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 19-04-2022 02:51:11
+# Last Modified: 19-04-2022 04:06:07
 # Modified By: Clay Risser
 # -----
 # BitSpur Inc (c) Copyright 2021 - 2022
@@ -20,7 +20,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
--include $(MKPM_TMP)/env
+-include $(MKPM_TMP)/mkenv
 
 DOTENV ?= $(CURDIR)/.env
 DEFAULT_ENV ?= $(subst /.env,,$(DOTENV))/default.env
@@ -30,7 +30,10 @@ $(MKPM_TMP)/env: $(DOTENV)
 	@$(CAT) $< | \
 		$(SED) 's|^#.*||g' | \
 		$(SED) '/^$$/d' | \
-		$(SED) 's|^|export |' | \
+		$(SED) 's|^|export |' > $@
+$(MKPM_TMP)/mkenv: $(MKPM_TMP)/env
+	@$(MKDIR) -p $(@D)
+	@$(CAT) $< | \
 		$(SED) 's|\=| \?= |' > $@
 ifneq (,$(wildcard $(DEFAULT_ENV)))
 $(DOTENV): $(DEFAULT_ENV)
