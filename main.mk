@@ -3,10 +3,10 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 19-04-2022 04:06:07
+# Last Modified: 24-05-2022 12:20:05
 # Modified By: Clay Risser
 # -----
-# BitSpur Inc (c) Copyright 2021 - 2022
+# Risser Labs LLC (c) Copyright 2021 - 2022
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,6 +34,10 @@ $(MKPM_TMP)/env: $(DOTENV)
 $(MKPM_TMP)/mkenv: $(MKPM_TMP)/env
 	@$(MKDIR) -p $(@D)
 	@$(CAT) $< | \
+		$(SED) 's|^\(export [^ ]\+=\)"|\1|g' | \
+		$(SED) 's|"$$||g' | \
+		$(SED) "s|^\(export [^ ]\+=\)'|\1|g" | \
+		$(SED) "s|'$$||g" | \
 		$(SED) 's|\=| \?= |' > $@
 ifneq (,$(wildcard $(DEFAULT_ENV)))
 $(DOTENV): $(DEFAULT_ENV)

@@ -3,10 +3,10 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 11-01-2022 03:39:07
+# Last Modified: 24-05-2022 12:16:57
 # Modified By: Clay Risser
 # -----
-# BitSpur Inc (c) Copyright 2021 - 2022
+# Risser Labs LLC (c) Copyright 2021 - 2022
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,6 +31,9 @@ PACK_DIR := $(MKPM_TMP)/pack
 info:
 	@$(ECHO) DOTENV: $(DOTENV)
 	@$(ECHO) DEFAULT_ENV: $(DEFAULT_ENV)
+	@$(ECHO) HELLO: '$(HELLO)'
+	@$(ECHO) HOWDY: '$(HOWDY)'
+	@$(ECHO) FOO: '$(FOO)'
 
 .PHONY: pack
 pack:
