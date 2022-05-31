@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 24-05-2022 12:17:38
+# Last Modified: 31-05-2022 11:26:42
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -22,13 +22,13 @@
 
 MKPM_PKG_NAME := dotenv
 
-MKPM_PKG_VERSION := 0.0.8
+MKPM_PKG_VERSION := 0.0.9
 
 MKPM_PKG_DESCRIPTION := "dotenv support for makefiles"
 
 MKPM_PKG_AUTHOR := Clay Risser <clayrisser@gmail.com>
 
-MKPM_PKG_SOURCE := https://gitlab.com/bitspur/community/mkpm-dotenv.git
+MKPM_PKG_SOURCE := https://gitlab.com/risserlabs/community/mkpm-dotenv.git
 
 MKPM_PKG_FILES_REGEX :=
 
@@ -36,10 +36,10 @@ MKPM_PACKAGES := \
 	gnu=0.0.3
 
 MKPM_REPOS := \
-	https://gitlab.com/bitspur/community/mkpm-stable.git
+	https://gitlab.com/risserlabs/community/mkpm-stable.git
 
 ############# MKPM BOOTSTRAP SCRIPT BEGIN #############
-MKPM_BOOTSTRAP := https://bitspur.gitlab.io/community/mkpm/bootstrap.mk
+MKPM_BOOTSTRAP := https://risserlabs.gitlab.io/community/mkpm/bootstrap.mk
 export PROJECT_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST))))
 NULL := /dev/null
 TRUE := true

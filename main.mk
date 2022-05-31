@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 24-05-2022 12:20:05
+# Last Modified: 31-05-2022 11:25:48
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -33,12 +33,10 @@ $(MKPM_TMP)/env: $(DOTENV)
 		$(SED) 's|^|export |' > $@
 $(MKPM_TMP)/mkenv: $(MKPM_TMP)/env
 	@$(MKDIR) -p $(@D)
-	@$(CAT) $< | \
-		$(SED) 's|^\(export [^ ]\+=\)"|\1|g' | \
-		$(SED) 's|"$$||g' | \
-		$(SED) "s|^\(export [^ ]\+=\)'|\1|g" | \
-		$(SED) "s|'$$||g" | \
-		$(SED) 's|\=| \?= |' > $@
+	@. $(MKPM_TMP)/env && \
+		for e in $$($(CAT) $< | $(SED) 's|^export \+\([^ =]\+\).*$$|\1|g'); do \
+			eval "echo export $$e ?= \$$$$e"; \
+		done > $@
 ifneq (,$(wildcard $(DEFAULT_ENV)))
 $(DOTENV): $(DEFAULT_ENV)
 	@$(CP) $< $@
