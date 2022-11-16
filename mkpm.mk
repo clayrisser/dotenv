@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 16-11-2022 05:35:47
+# Last Modified: 16-11-2022 05:58:05
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -22,7 +22,7 @@
 
 MKPM_PKG_NAME := dotenv
 
-MKPM_PKG_VERSION := 0.0.10
+MKPM_PKG_VERSION := 0.0.11
 
 MKPM_PKG_DESCRIPTION := "dotenv support for makefiles"
 
