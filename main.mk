@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 16-11-2022 05:58:02
+# Last Modified: 08-04-2023 07:59:03
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -37,7 +37,9 @@ $(MKPM_TMP)/mkenv: $(MKPM_TMP)/env
 		$(SED) "s|[\"']$$||g" > $@
 ifneq (,$(wildcard $(DEFAULT_ENV)))
 $(DOTENV): $(DEFAULT_ENV)
-	@$(CP) $< $@
+	@if [ "$<" -nt "$@" ]; then \
+		$(CP) $< $@; \
+	fi
 else
 $(DOTENV):
 	@$(TOUCH) -m $@
