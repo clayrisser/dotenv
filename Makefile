@@ -1,12 +1,12 @@
 # File: /Makefile
 # Project: mkpm-dotenv
-# File Created: 06-01-2022 03:18:08
-# Author: Clay Risser
+# File Created: 03-08-2023 14:23:05
+# Author: Lavanya Katari
 # -----
-# Last Modified: 24-05-2022 12:16:57
-# Modified By: Clay Risser
+# Last Modified: 03-08-2023 14:23:43
+# Modified By: Lavanya Katari
 # -----
-# Risser Labs LLC (c) Copyright 2021 - 2022
+# Risser Labs LLC (c) Copyright 2021 - 2023
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,48 +20,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include mkpm.mk
-ifneq (,$(MKPM_READY))
-include $(MKPM)/gnu
-include main.mk
+.ONESHELL:
+.POSIX:
+.SILENT:
 
-PACK_DIR := $(MKPM_TMP)/pack
-
-.PHONY: info
-info:
-	@$(ECHO) DOTENV: $(DOTENV)
-	@$(ECHO) DEFAULT_ENV: $(DEFAULT_ENV)
-	@$(ECHO) HELLO: '$(HELLO)'
-	@$(ECHO) HOWDY: '$(HOWDY)'
-	@$(ECHO) FOO: '$(FOO)'
-
-.PHONY: pack
-pack:
-	@rm -rf $(PACK_DIR) $(NOFAIL) && mkdir -p $(PACK_DIR)
-	@cp main.mk $(PACK_DIR)
-	@cp mkpm.mk $(PACK_DIR)
-	@cp LICENSE $(PACK_DIR) $(NOFAIL)
-	@for f in $(shell [ "$(MKPM_FILES_REGEX)" = "" ] || \
-		$(FIND) . -type f -not -path './.git/*' | $(SED) 's|^\.\/||g' | \
-		$(GREP) -E "$(MKPM_FILES_REGEX)") \
-		$(shell $(GIT) ls-files | $(GREP) -E "^README[^\/]*$$"); do \
-			PARENT_DIR=$$(echo $$f | $(SED) 's|[^\/]\+$$||g' | $(SED) 's|\/$$||g') && \
-			([ "$$PARENT_DIR" != "" ] && mkdir -p $(PACK_DIR)/$$PARENT_DIR || true) && \
-			cp $$f $(PACK_DIR)/$$f; \
-		done
-	@tar -cvzf $(MKPM_PKG_NAME).tar.gz -C $(PACK_DIR) .
-
-.PHONY: publish
-publish: pack
-
-.PHONY: clean
-clean:
-	@$(MKCHAIN_CLEAN)
-	@$(GIT) clean -fXd \
-		$(MKPM_GIT_CLEAN_FLAGS)
-
-.PHONY: purge
-purge: clean
-	@$(GIT) clean -fXd
-
-endif
+MKPM := ./mkpm
+.PHONY: %
+%:
+	@$(MKPM) "$@" $(ARGS)

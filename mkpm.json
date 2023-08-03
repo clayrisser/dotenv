@@ -1,0 +1,15 @@
+{
+  "name": "dotenv",
+  "version": "0.0.13",
+  "description": "dotenv support for makefiles",
+  "author": "Clay Risser <clayrisser@gmail.com>",
+  "repo": "git@gitlab.com:bitspur/community/mkpm-packages.git",
+  "packages": {
+    "default": {
+      "gnu": "0.0.3"
+    }
+  },
+  "repos": {
+    "default": "https://gitlab.com/bitspur/mkpm/packages.git"
+  }
+}
