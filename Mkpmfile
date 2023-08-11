@@ -3,8 +3,8 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 04-08-2023 18:19:10
-# Modified By: Ajith Kumar
+# Last Modified: 10-08-2023 14:49:36
+# Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
 #
@@ -22,7 +22,7 @@
 
 include $(MKPM)/mkpm
 include $(MKPM)/gnu
-include $(MKPM)/main
+include $(PROJECT_ROOT)/main.mk
 
 PACK_DIR := $(MKPM_TMP)/pack
 
@@ -43,5 +43,3 @@ clean:
 .PHONY: purge
 purge: clean
 	@$(GIT) clean -fXd
-
-

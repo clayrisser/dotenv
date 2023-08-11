@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 08-04-2023 08:01:12
+# Last Modified: 10-08-2023 14:56:31
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -20,21 +20,45 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
--include $(MKPM_TMP)/mkenv
-
 DOTENV ?= $(CURDIR)/.env
 DEFAULT_ENV ?= $(subst /.env,,$(DOTENV))/default.env
+_DOTENV_SUBPATH := dotenv$(subst $(PROJECT_ROOT),,$(CURDIR))
 
-$(MKPM_TMP)/env: $(DOTENV)
+ifneq (dotenv,$(_DOTENV_SUBPATH))
+ifeq (,$(wildcard $(DEFAULT_ENV)))
+ifeq (,$(wildcard $(DOTENV)))
+DOTENV := $(PROJECT_ROOT)/.env
+DEFAULT_ENV := $(subst /.env,,$(DOTENV))/default.env
+_DOTENV_SUBPATH := dotenv
+endif
+endif
+endif
+
+$(MKPM_TMP)/$(_DOTENV_SUBPATH)/env: $(DOTENV)
 	@$(MKDIR) -p $(@D)
-	@$(CAT) $< | \
-		$(SED) 's|^#.*||g' | \
-		$(SED) '/^$$/d' | \
-		$(SED) 's|^|export |' > $@
-$(MKPM_TMP)/mkenv: $(MKPM_TMP)/env
+	@$(AWK) -F= ' \
+		BEGIN { inMultiline=0; quoteType="" } \
+		/^[[:space:]]*#/ || /^[[:space:]]*$$/ { print; next } \
+		inMultiline && $$0 ~ quoteType "$$" { print; inMultiline=0; next } \
+		inMultiline { print; next } \
+		($$2 ~ /^"[^"]*$$/) || ($$2 ~ /^'\''[^'\'']*$$/) { \
+			print "export " $$0; \
+			inMultiline=1; \
+			quoteType = substr($$2, 1, 1); \
+			next \
+		} \
+		{ print "export " $$0 }' $< > $@
+
+$(MKPM_TMP)/$(_DOTENV_SUBPATH)/mkenv: $(MKPM_TMP)/$(_DOTENV_SUBPATH)/env
 	@$(MKDIR) -p $(@D)
-	@$(CAT) $(MKPM_TMP)/env | $(SED) "s|^export \+\([^ =]\+\)=[\"']\?\(.*\)$$|export \1 ?= \2|g" | \
-		$(SED) "s|[\"']$$||g" > $@
+	@$(RM) $@
+	@. $< && \
+		for e in $$($(CAT) $< | $(GREP) -oE '^export +[^=]+' | $(SED) 's|^export \+||g'); do \
+			$(ECHO) "define $$e" && \
+			eval "echo \"\$$$$e\"" && \
+			$(ECHO) endef && $(ECHO); \
+		done > $@
+
 ifneq (,$(wildcard $(DEFAULT_ENV)))
 $(DOTENV): $(DEFAULT_ENV)
 	@if [ ! -f "$@" ] || [ "$<" -nt "$@" ]; then \
@@ -44,3 +68,5 @@ else
 $(DOTENV):
 	@$(TOUCH) -m $@
 endif
+
+-include $(MKPM_TMP)/$(_DOTENV_SUBPATH)/mkenv
