@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 10-08-2023 14:56:31
+# Last Modified: 18-09-2023 04:09:41
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -56,7 +56,9 @@ $(MKPM_TMP)/$(_DOTENV_SUBPATH)/mkenv: $(MKPM_TMP)/$(_DOTENV_SUBPATH)/env
 		for e in $$($(CAT) $< | $(GREP) -oE '^export +[^=]+' | $(SED) 's|^export \+||g'); do \
 			$(ECHO) "define $$e" && \
 			eval "echo \"\$$$$e\"" && \
-			$(ECHO) endef && $(ECHO); \
+			$(ECHO) endef && \
+			$(ECHO) "export $$e" && \
+			$(ECHO); \
 		done > $@
 
 ifneq (,$(wildcard $(DEFAULT_ENV)))
