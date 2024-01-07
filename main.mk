@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 07-01-2024 02:29:07
+# Last Modified: 07-01-2024 02:40:28
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -21,17 +21,21 @@
 # limitations under the License.
 
 DOTENV ?= $(CURDIR)/.env
-DEFAULT_ENV ?= $(subst /.env,,$(DOTENV))/default.env
 _DOTENV_SUBPATH := dotenv$(subst $(PROJECT_ROOT),,$(CURDIR))
+_DOTENV_PATH := $(subst /.env,,$(DOTENV))
+
+ifneq (,$(wildcard $(_DOTENV_PATH)/.env.default))
+DEFAULT_ENV ?= $(_DOTENV_PATH)/.env.default
+endif
+ifneq (,$(wildcard $(_DOTENV_PATH)/default.env))
+DEFAULT_ENV ?= $(_DOTENV_PATH)/default.env
+endif
 
 ifneq (dotenv,$(_DOTENV_SUBPATH))
 ifeq (,$(wildcard $(DEFAULT_ENV)))
 ifeq (,$(wildcard $(DOTENV)))
 DOTENV := $(PROJECT_ROOT)/.env
-DEFAULT_ENV ?= $(subst /.env,,$(DOTENV))/default.env
-ifeq (,$(wildcard $(DEFAULT_ENV)))
-DEFAULT_ENV := $(subst /.env,,$(DOTENV))/.env.default
-endif
+DEFAULT_ENV := $(subst /.env,,$(DOTENV))/default.env
 _DOTENV_SUBPATH := dotenv
 endif
 endif
