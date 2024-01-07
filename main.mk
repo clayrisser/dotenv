@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 18-09-2023 04:09:41
+# Last Modified: 07-01-2024 02:29:07
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -28,7 +28,10 @@ ifneq (dotenv,$(_DOTENV_SUBPATH))
 ifeq (,$(wildcard $(DEFAULT_ENV)))
 ifeq (,$(wildcard $(DOTENV)))
 DOTENV := $(PROJECT_ROOT)/.env
-DEFAULT_ENV := $(subst /.env,,$(DOTENV))/default.env
+DEFAULT_ENV ?= $(subst /.env,,$(DOTENV))/default.env
+ifeq (,$(wildcard $(DEFAULT_ENV)))
+DEFAULT_ENV := $(subst /.env,,$(DOTENV))/.env.default
+endif
 _DOTENV_SUBPATH := dotenv
 endif
 endif
