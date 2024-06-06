@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 25-02-2024 05:30:13
+# Last Modified: 06-06-2024 11:43:17
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -27,8 +27,14 @@ _DOTENV_PATH := $(subst /.env,,$(DOTENV))
 ifneq (,$(wildcard $(_DOTENV_PATH)/.env.default))
 DEFAULT_ENV ?= $(_DOTENV_PATH)/.env.default
 endif
+ifneq (,$(wildcard $(_DOTENV_PATH)/.env.example))
+DEFAULT_ENV ?= $(_DOTENV_PATH)/.env.example
+endif
 ifneq (,$(wildcard $(_DOTENV_PATH)/default.env))
 DEFAULT_ENV ?= $(_DOTENV_PATH)/default.env
+endif
+ifneq (,$(wildcard $(_DOTENV_PATH)/example.env))
+DEFAULT_ENV ?= $(_DOTENV_PATH)/example.env
 endif
 
 ifneq (dotenv,$(_DOTENV_SUBPATH))
