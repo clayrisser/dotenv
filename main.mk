@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 20-08-2024 16:10:44
+# Last Modified: 20-08-2024 16:29:26
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -22,7 +22,7 @@
 
 DOTENV ?= .env
 _DOTENV_SUBPATH := dotenv$(subst $(PROJECT_ROOT),,$(CURDIR))
-_DOTENV_PATH := $(patsubst %/,%,$(dir $(DOTENV)))
+_DOTENV_PATH := $(patsubst %/,%,$(dir $(abspath $(DOTENV))))
 
 ifneq (,$(wildcard $(_DOTENV_PATH)/.env.default))
 DEFAULT_ENV ?= $(_DOTENV_PATH)/.env.default
@@ -46,8 +46,27 @@ endif
 ifneq (dotenv,$(_DOTENV_SUBPATH))
 ifeq (,$(wildcard $(DEFAULT_ENV)))
 ifeq (,$(wildcard $(DOTENV)))
-DOTENV := $(PROJECT_ROOT)/.env
-DEFAULT_ENV := $(subst /.env,,$(DOTENV))/default.env
+ifeq ($(filter /%,$(DOTENV)),)
+DOTENV := $(PROJECT_ROOT)/$(DOTENV)
+endif
+ifneq (,$(wildcard $(PROJECT_ROOT)/.env.default))
+DEFAULT_ENV ?= $(PROJECT_ROOT)/.env.default
+endif
+ifneq (,$(wildcard $(PROJECT_ROOT)/.env.example))
+DEFAULT_ENV ?= $(PROJECT_ROOT)/.env.example
+endif
+ifneq (,$(wildcard $(PROJECT_ROOT)/default.env))
+DEFAULT_ENV ?= $(PROJECT_ROOT)/default.env
+endif
+ifneq (,$(wildcard $(PROJECT_ROOT)/example.env))
+DEFAULT_ENV ?= $(PROJECT_ROOT)/example.env
+endif
+ifneq (,$(wildcard $(PROJECT_ROOT)/env.default))
+DEFAULT_ENV ?= $(PROJECT_ROOT)/env.default
+endif
+ifneq (,$(wildcard $(PROJECT_ROOT)/env.example))
+DEFAULT_ENV ?= $(PROJECT_ROOT)/env.example
+endif
 _DOTENV_SUBPATH := dotenv
 endif
 endif
