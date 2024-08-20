@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 06-06-2024 11:48:00
+# Last Modified: 20-08-2024 15:09:44
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -20,9 +20,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DOTENV ?= $(CURDIR)/.env
+ifeq (,$(DOTENV))
+DOTENV := $(CURDIR)/.env
+else
+DOTENV := $(abspath $(DOTENV))
+endif
 _DOTENV_SUBPATH := dotenv$(subst $(PROJECT_ROOT),,$(CURDIR))
-_DOTENV_PATH := $(subst /.env,,$(DOTENV))
+_DOTENV_PATH := $(patsubst %/,%,$(dir $(DOTENV)))
 
 ifneq (,$(wildcard $(_DOTENV_PATH)/.env.default))
 DEFAULT_ENV ?= $(_DOTENV_PATH)/.env.default
@@ -93,3 +97,5 @@ $(DOTENV):
 endif
 
 -include $(MKPM_TMP)/$(_DOTENV_SUBPATH)/mkenv
+
+MKPM_CLEANUP +=; $(RM) $(MKPM_TMP)/$(_DOTENV_SUBPATH)/env
