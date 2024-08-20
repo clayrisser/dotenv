@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 20-08-2024 15:09:44
+# Last Modified: 20-08-2024 16:10:44
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -20,11 +20,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ifeq (,$(DOTENV))
-DOTENV := $(CURDIR)/.env
-else
-DOTENV := $(abspath $(DOTENV))
-endif
+DOTENV ?= .env
 _DOTENV_SUBPATH := dotenv$(subst $(PROJECT_ROOT),,$(CURDIR))
 _DOTENV_PATH := $(patsubst %/,%,$(dir $(DOTENV)))
 
