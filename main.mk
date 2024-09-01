@@ -3,7 +3,7 @@
 # File Created: 06-01-2022 03:18:08
 # Author: Clay Risser
 # -----
-# Last Modified: 20-08-2024 16:29:26
+# Last Modified: 01-09-2024 09:01:36
 # Modified By: Clay Risser
 # -----
 # Risser Labs LLC (c) Copyright 2021 - 2022
@@ -113,4 +113,4 @@ endif
 
 -include $(MKPM_TMP)/$(_DOTENV_SUBPATH)/mkenv
 
-MKPM_CLEANUP +=; $(RM) $(MKPM_TMP)/$(_DOTENV_SUBPATH)/env
+MKPM_CLEANUP +=; $(RM) -rf $(MKPM_TMP)/dotenv
